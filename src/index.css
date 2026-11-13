@@ -1,0 +1,259 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Animatable theme tokens (fade between neuro / womens over 400ms)
+------------------------------------------------------------------- */
+@property --accent { syntax: "<color>"; inherits: true; initial-value: #24206B; }
+@property --accent-strong { syntax: "<color>"; inherits: true; initial-value: #16124A; }
+@property --accent-soft { syntax: "<color>"; inherits: true; initial-value: #ECEBF7; }
+
+:root {
+  /* Base */
+  --bg: #FCFAFD;
+  --surface: #FFFFFF;
+  --ink: #1A1838;
+  --muted: #5E5B73;
+  --line: #ECE7F0;
+
+  /* Brand */
+  --brand-indigo: #24206B;
+  --brand-plum: #6B1E7A;
+  --brand-magenta: #B8185C;
+  --band: #16124A;
+  --band-berry: #3A0D33; /* deep berry band, women's lane only */
+  --brand-gradient: linear-gradient(100deg, var(--brand-indigo) 0%, var(--brand-plum) 50%, var(--brand-magenta) 100%);
+
+  /* Fixed-purpose */
+  --emergency: #C2410C;
+  --whatsapp: #25D366;
+  --whatsapp-strong: #1EBE5A;
+
+  /* Neuro theme (default) */
+  --accent: #24206B;
+  --accent-strong: #16124A;
+  --accent-soft: #ECEBF7;
+
+  /* Fixed chrome heights (header + compact sticky toggle). Mobile total ≤ 120px. */
+  --header-h: 64px;
+  --subnav-h: 56px;
+
+  transition: --accent 400ms ease, --accent-strong 400ms ease, --accent-soft 400ms ease;
+}
+
+@media (min-width: 1024px) {
+  :root { --header-h: 76px; --subnav-h: 60px; }
+}
+
+/* Also works on nested elements (e.g. the booking form follows its selected doctor) */
+:root[data-specialty="womens"],
+[data-specialty="womens"] {
+  --accent: #B8185C;
+  --accent-strong: #8C1247;
+  --accent-soft: #FBE9F0;
+}
+[data-specialty="neuro"]:not(:root) {
+  --accent: #24206B;
+  --accent-strong: #16124A;
+  --accent-soft: #ECEBF7;
+}
+[data-specialty]:not(:root) {
+  transition: --accent 400ms ease, --accent-strong 400ms ease, --accent-soft 400ms ease;
+}
+
+/* ------------------------------------------------------------------
+   Tailwind theme
+------------------------------------------------------------------- */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-indigo: var(--brand-indigo);
+  --color-plum: var(--brand-plum);
+  --color-magenta: var(--brand-magenta);
+  --color-band: var(--band);
+  --color-band-berry: var(--band-berry);
+  --color-emergency: var(--emergency);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-strong: var(--whatsapp-strong);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+}
+
+@theme {
+  /* One family: Outfit. Fallback is a system sans stack. */
+  --font-heading: "Outfit", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Outfit", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Tailwind defaults point at Outfit too, so nothing can fall back to another face */
+  --font-sans: var(--font-body);
+  --font-serif: var(--font-heading);
+
+  /* Type scale (see DESIGN.md §3) */
+  --text-display: 2.125rem;          --text-display--line-height: 1.08; --text-display--letter-spacing: -0.03em;
+  --text-title: 1.875rem;            --text-title--line-height: 1.1;    --text-title--letter-spacing: -0.028em;
+  --text-h2: 1.875rem;               --text-h2--line-height: 1.12;      --text-h2--letter-spacing: -0.025em;
+  --text-h3: 1.375rem;               --text-h3--line-height: 1.2;       --text-h3--letter-spacing: -0.02em;
+  --text-h4: 1.125rem;               --text-h4--line-height: 1.3;       --text-h4--letter-spacing: -0.01em;
+  --text-lead: 1.125rem;             --text-lead--line-height: 1.6;
+  --text-base: 1rem;                 --text-base--line-height: 1.6;
+  --text-sm: 0.9375rem;              --text-sm--line-height: 1.55;
+  --text-eyebrow: 0.75rem;           --text-eyebrow--line-height: 1.4;  --text-eyebrow--letter-spacing: 0.12em;
+  --text-numeral: 2.75rem;           --text-numeral--line-height: 1;    --text-numeral--letter-spacing: -0.03em;
+
+  --radius-card: 16px;
+  --radius-input: 12px;
+  --radius-soft: 28px; /* women's lane panels only */
+
+  --shadow-soft: 0 1px 2px rgb(36 32 107 / 0.04), 0 8px 24px -12px rgb(36 32 107 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(36 32 107 / 0.05), 0 16px 32px -16px rgb(36 32 107 / 0.18);
+}
+
+/* Desktop steps of the type scale */
+@media (min-width: 768px) {
+  :root {
+    --text-display: 3rem;
+    --text-h2: 2.25rem;
+    --text-h3: 1.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --text-display: 3.75rem;
+    --text-title: 3rem;
+    --text-numeral: 3.5rem;
+    --text-h2: 2.5rem;
+    --text-h3: 1.625rem;
+    --text-h4: 1.1875rem;
+    --text-lead: 1.25rem;
+    --text-base: 1.0625rem;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Base
+------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* header + sticky specialty toggle + breathing room */
+    scroll-padding-top: calc(var(--header-h) + var(--subnav-h) + 16px);
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--text-base);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+    color: var(--ink);
+    text-wrap: balance;
+    overflow-wrap: break-word;
+  }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--accent-soft); color: var(--accent-strong); }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* Focus rings must stay visible on the deep bands (indigo ring on indigo is invisible) */
+.bg-band :focus-visible,
+.bg-band-berry :focus-visible,
+footer :focus-visible {
+  outline-color: #fff !important;
+}
+
+/* Skip link: hidden until focused */
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 60;
+  padding: 12px 16px;
+  border-radius: var(--radius-input);
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+  transform: translateY(-150%);
+}
+.skip-link:focus { transform: none; }
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 16px;
+  }
+  @media (min-width: 640px) { .container-x { padding-inline: 24px; } }
+  @media (min-width: 1024px) { .container-x { padding-inline: 32px; } }
+
+  .section-y { padding-block: 64px; }
+  @media (min-width: 1024px) { .section-y { padding-block: 96px; } }
+
+  .eyebrow {
+    font-family: var(--font-body);
+    font-size: var(--text-eyebrow);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .text-gradient {
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .rule-gradient {
+    height: 1px;
+    background: var(--brand-gradient);
+    border: 0;
+  }
+  .rule { height: 1px; background: var(--line); border: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  :root { transition: none; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   "Book Appointment" attention nudge: a short, small shake every few
+   seconds. Uses the `rotate` property so it never fights hover transforms.
+   Pauses on hover/focus; off for prefers-reduced-motion.
+------------------------------------------------------------------- */
+@keyframes nudge {
+  0%, 84%, 100% { rotate: 0deg; }
+  86% { rotate: -3deg; }
+  88% { rotate: 3deg; }
+  90% { rotate: -2.5deg; }
+  92% { rotate: 2deg; }
+  94% { rotate: -1deg; }
+  96% { rotate: 0.5deg; }
+}
+.btn-nudge { animation: nudge 5s ease-in-out 3s infinite; }
+.btn-nudge-late { animation-delay: 5.5s; }
+.btn-nudge:hover,
+.btn-nudge:focus-visible { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .btn-nudge { animation: none; }
+}
